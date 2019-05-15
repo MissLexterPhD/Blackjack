@@ -1,1 +1,1 @@
-Blackjack but no betting (because betting is bad)
+Blackjack but no betting (because gambling is bad)
