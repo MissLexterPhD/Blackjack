@@ -1,11 +1,15 @@
 ﻿import time
 import random
+import msvcrt as m	# for keypress
+import os
+
+won = 0
+lost = 0
 
 card_chars=['┌','─', '┐','│','░','└','┘','♠', '♥', '♣', '♦']
 suits = ['♠', '♥', '♣', '♦']
 card_rank = ["A",2,3,4,5,6,7,8,9,10,"J","Q","K"]
 
-deck = list(range(52*4))
 cardheight = 9
 cardcount = 2
 cardwidth = 12
@@ -95,14 +99,29 @@ def hit(player):
         
     else:
         dealer_hand.append(deck.pop())
-        
-            
-random.shuffle(deck)
+		
+def clear():
+    os.system("cls")
+	
+
+def newDeck():
+    deck = list(range(52*4))
+    random.shuffle(deck)
+    return deck
+
+def print_scores():
+    print("Your hand: " + str(calcScore(player_hand)) + "        Dealer Hand: " + str(calcScore(dealer_hand)))
+	
+	
 playforever = 1
+deck = newDeck()
 while playforever:
+    if len(deck) < 4:
+        deck = newDeck()
     dealer_hand = [deck.pop(), deck.pop()]
     player_hand = [deck.pop(), deck.pop()]
     playerpoints = 0
+    clear()
     print("Dealer hand:")
     printCards(dealer_hand, True)
     print("Your hand:")
@@ -118,25 +137,28 @@ while playforever:
         elif keepgoing.lower() == "q":
             playforever = 0
             break
-        elif keepgoing == "1":
+        elif keepgoing == "h":
             hit("player")
-            print("Your hand:")
+            clear()
+            print("Your new hand:")
             printCards(player_hand, False)
         elif calcScore(player_hand) >= 21:
             break
-    
+    if playforever == 0:
+        break
     if calcScore(player_hand) > 21:
+        print("Your (dead) hand: " + str(calcScore(player_hand)))
         print("oof you busted")
+        lost+=1
     else:
     # hit dealer
-    
         while calcScore(dealer_hand) <= 17:
             hit("dealer")
             if calcScore(dealer_hand) == 21:
                 break
         print("Dealer's hand:")
         printCards(dealer_hand, False)
-
+        print_scores()
         if calcScore(player_hand) <= 21 and calcScore(dealer_hand) > 21:
             print("Dealer lost")
         elif calcScore(player_hand) > calcScore(dealer_hand) and calcScore(player_hand) <= 21:
@@ -144,9 +166,14 @@ while playforever:
                 print("BLECKJECK BOI")
             else:
                 print("you won!")
+            won+=1
         else:
             print("YOU LOST")
-    time.sleep(3)
+            lost+=1
+    print("Press any key to continue...")
+    m.getch()
+    clear()
+    # time.sleep(3)
     #  [ 7, 21], 8, 9
     print("")
 
