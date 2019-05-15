@@ -35,14 +35,14 @@ def printCards(hand, yn):
             if rowno == cardheight - 1:
                 print(cardpart[2], end="    ")
             # prints dealer first card upside down
-            if yn == True and counter == 0:
+            if yn is True and counter == 0:
                 if cardheight-1> rowno >= 1:
                     print(cardpart[1], end="    ")
             else:
                 
                 # prints number
                 if rowno == numberheight:
-                    cardn = hand[counter]%52%13 + 1
+                    cardn = hand[counter] % 52 % 13 + 1
                     print("│░░" + str(card_rank[cardn - 1]), end="")
                     if cardn == 10:
                         print("░░░░░░│", end="    ")
@@ -50,8 +50,7 @@ def printCards(hand, yn):
                         print("░░░░░░░│", end="    ")
                     
                 # prints suit
-                
-                
+
                 if rowno == suitheight:
                     print("│░░░░" + suits[hand[counter] % 52//13] + "░░░░░│", end="    ")
                        
@@ -99,20 +98,22 @@ def hit(player):
         
     else:
         dealer_hand.append(deck.pop())
-		
+
+
 def clear():
     os.system("cls")
-	
+
 
 def newDeck():
     deck = list(range(52*4))
     random.shuffle(deck)
     return deck
 
+
 def print_scores():
     print("Your hand: " + str(calcScore(player_hand)) + "        Dealer Hand: " + str(calcScore(dealer_hand)))
-	
-	
+
+
 playforever = 1
 deck = newDeck()
 while playforever:
@@ -128,30 +129,36 @@ while playforever:
     printCards(player_hand, False)
     keepgoing= "1"
     # hit player
+    validresponse = True
     while keepgoing == "1" and calcScore(player_hand) < 21:
-        print("Your Score:", calcScore(player_hand))
+        if validresponse is not False:
+            print("Your Score:", calcScore(player_hand))
         keepgoing = input("hit or stand? (h/s, or q to quit) ")
         if keepgoing.lower() != "h" and keepgoing.lower() != "s" and keepgoing.lower() != "q":
             print("Please enter a valid response")
-            continue
+            validresponse = True
         elif keepgoing.lower() == "q":
-            playforever = 0
+            playforever = "0"
             break
         elif keepgoing == "h":
             hit("player")
             clear()
             print("Your new hand:")
             printCards(player_hand, False)
+            validresponse = True
         elif calcScore(player_hand) >= 21:
             break
-    if playforever == 0:
+        elif keepgoing == "s":
+            break
+        keepgoing = "1"
+    if playforever == "0":
         break
     if calcScore(player_hand) > 21:
         print("Your (dead) hand: " + str(calcScore(player_hand)))
         print("oof you busted")
         lost+=1
     else:
-    # hit dealer
+        # hit dealer
         while calcScore(dealer_hand) <= 17:
             hit("dealer")
             if calcScore(dealer_hand) == 21:
@@ -160,7 +167,8 @@ while playforever:
         printCards(dealer_hand, False)
         print_scores()
         if calcScore(player_hand) <= 21 and calcScore(dealer_hand) > 21:
-            print("Dealer lost")
+            print("You win!")
+            won+=1
         elif calcScore(player_hand) > calcScore(dealer_hand) and calcScore(player_hand) <= 21:
             if calcScore(player_hand) == 21:
                 print("BLECKJECK BOI")
@@ -177,7 +185,9 @@ while playforever:
     #  [ 7, 21], 8, 9
     print("")
 
-
-
-
-
+if lost == 0:
+    win_percentage = 1
+else:
+    win_percentage = won/(won + lost)
+print("Your stats:")
+print("Won: " + str(won) + "    Lost: " + str(lost) + "    Percentage won: " + str(win_percentage * 100) + "%")
