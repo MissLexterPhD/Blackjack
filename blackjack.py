@@ -185,6 +185,9 @@ while playforever:
     #  [ 7, 21], 8, 9
     print("")
 
+# after quitting
+
+clear()
 if lost == 0:
     win_percentage = 1
 else:
