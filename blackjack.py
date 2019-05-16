@@ -117,80 +117,80 @@ def print_scores():
 playforever = 1
 deck = newDeck()
 while playforever:
-    if len(deck) < 4:
-        deck = newDeck()
-    dealer_hand = [deck.pop(), deck.pop()]
-    player_hand = [deck.pop(), deck.pop()]
-    playerpoints = 0
-    clear()
-    print("Dealer hand:")
-    printCards(dealer_hand, True)
-    print("Your hand:")
-    printCards(player_hand, False)
-    keepgoing= "1"
-    # hit player
-    validresponse = True
-    while keepgoing == "1" and calcScore(player_hand) < 21:
-        if validresponse is not False:
-            print("Your Score:", calcScore(player_hand))
-        keepgoing = input("hit or stand? (h/s, or q to quit) ")
-        if keepgoing.lower() != "h" and keepgoing.lower() != "s" and keepgoing.lower() != "q":
-            print("Please enter a valid response")
-            validresponse = True
-        elif keepgoing.lower() == "q":
-            playforever = "0"
-            break
-        elif keepgoing == "h":
-            hit("player")
-            clear()
-            print("Your new hand:")
-            printCards(player_hand, False)
-            validresponse = True
-        elif calcScore(player_hand) >= 21:
-            break
-        elif keepgoing == "s":
-            break
-        keepgoing = "1"
-    if playforever == "0":
-        break
-    if calcScore(player_hand) > 21:
-        print("Your (dead) hand: " + str(calcScore(player_hand)))
-        print("oof you busted")
-        lost+=1
-    else:
-        # hit dealer
-        while calcScore(dealer_hand) <= 17:
-            hit("dealer")
-            if calcScore(dealer_hand) == 21:
-                break
-        print("Dealer's hand:")
-        printCards(dealer_hand, False)
-        print_scores()
-        if calcScore(player_hand) <= 21 and calcScore(dealer_hand) > 21:
-            print("You win!")
-            won+=1
-        elif calcScore(player_hand) > calcScore(dealer_hand) and calcScore(player_hand) <= 21:
-            if calcScore(player_hand) == 21:
-                print("BLECKJECK BOI")
-            else:
-                print("you won!")
-            won+=1
-        else:
-            print("YOU LOST")
-            lost+=1
-    print("Press any key to continue...")
-    m.getch()
-    clear()
-    # time.sleep(3)
-    #  [ 7, 21], 8, 9
-    print("")
+	if len(deck) < 4:
+		deck = newDeck()
+	dealer_hand = [deck.pop(), deck.pop()]
+	player_hand = [deck.pop(), deck.pop()]
+	playerpoints = 0
+	clear()
+	print("Dealer hand:")
+	printCards(dealer_hand, True)
+	print("Your hand:")
+	printCards(player_hand, False)
+	keepgoing= "1"
+	# hit player
+	validresponse = True
+	while keepgoing == "1" and calcScore(player_hand) < 21:
+		if validresponse is not False:
+			print("Your Score:", calcScore(player_hand))
+		keepgoing = input("hit or stand? (h/s, or q to quit) ")
+		if keepgoing.lower() != "h" and keepgoing.lower() != "s" and keepgoing.lower() != "q":
+			print("Please enter a valid response")
+			validresponse = True
+		elif keepgoing.lower() == "q":
+			playforever = "0"
+			break
+		elif keepgoing == "h":
+			hit("player")
+			clear()
+			print("Your new hand:")
+			printCards(player_hand, False)
+			validresponse = True
+		elif calcScore(player_hand) >= 21:
+			break
+		elif keepgoing == "s":
+			break
+		keepgoing = "1"
+	if playforever == "0":
+		break
+	if calcScore(player_hand) > 21:
+		print("Your (dead) hand: " + str(calcScore(player_hand)))
+		print("oof you busted")
+		lost+=1
+	else:
+		# hit dealer
+		while calcScore(dealer_hand) <= 17:
+			hit("dealer")
+			if calcScore(dealer_hand) == 21:
+				break
+		print("Dealer's hand:")
+		printCards(dealer_hand, False)
+		print_scores()
+		if calcScore(player_hand) <= 21 and calcScore(dealer_hand) > 21:
+			print("You win!")
+			won+=1
+		elif calcScore(player_hand) > calcScore(dealer_hand) and calcScore(player_hand) <= 21:
+			if calcScore(player_hand) == 21:
+				print("BLECKJECK BOI")
+			else:
+				print("you won!")
+			won+=1
+		else:
+			print("YOU LOST")
+			lost+=1
+	print("Press any key to continue...")
+	m.getch()
+	clear()
+	# time.sleep(3)
+	#  [ 7, 21], 8, 9
+	print("")
 
 # after quitting
 
 clear()
 if lost == 0:
-    win_percentage = 1
+	win_percentage = 1
 else:
-    win_percentage = won/(won + lost)
+	win_percentage = won/(won + lost)
 print("Your stats:")
 print("Won: " + str(won) + "    Lost: " + str(lost) + "    Percentage won: " + str(win_percentage * 100) + "%")
