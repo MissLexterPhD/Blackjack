@@ -123,6 +123,7 @@ def print_stats():
 	print("Won: " + str(won) + "    Lost: " + str(lost) + "    Percentage won: " + str(win_percentage * 100) + "%\n")
 
 
+
 playforever = 1
 deck = newDeck()
 while playforever:
@@ -137,7 +138,8 @@ while playforever:
 	print("Your hand:")
 	printCards(player_hand, False)
 	keepgoing= "1"
-	# hit player
+
+	# get user input
 	validresponse = True
 	while keepgoing == "1" and calcScore(player_hand) < 21:
 		if validresponse is not False:
@@ -162,20 +164,24 @@ while playforever:
 		keepgoing = "1"
 	if playforever == "0":
 		break
+
 	if calcScore(player_hand) > 21:
 		print("Your (dead) hand: " + str(calcScore(player_hand)))
 		print("oof you busted")
 		lost+=1
 		print_stats()
 	else:
-		# hit dealer
-		while calcScore(dealer_hand) <= 17:
+		# hit dealer YEET
+		while calcScore(dealer_hand) < 17:
 			hit("dealer")
 			if calcScore(dealer_hand) == 21:
 				break
+
 		print("Dealer's hand:")
 		printCards(dealer_hand, False)
 		print_scores()
+
+		# see who the dankest mememaker is
 		if calcScore(player_hand) <= 21 and calcScore(dealer_hand) > 21:
 			print("You win!")
 			won+=1
@@ -191,6 +197,9 @@ while playforever:
 			print("YOU LOST")
 			lost+=1
 			print_stats()
+
+	# cool kid windows stuff (imagine using mac and not being supported
+	# because I'm too lazy to check what system you're on)
 	print("Press any key to continue...")
 	m.getch()
 	clear()
